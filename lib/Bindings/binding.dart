@@ -1,0 +1,18 @@
+import 'package:fyp/Controller/CartController.dart';
+import 'package:fyp/Controller/ProductController.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+class defaultBinding extends Bindings{
+  @override
+  void dependencies() {
+    // TODO: implement dependencies
+    Get.put<ProductController>(ProductController());
+    Get.put<CartController>(CartController());
+    // Get.lazyPut(()=>InvoiceController(),fenix: true);
+    // Get.lazyPut(()=>ItemController(),fenix: true);
+    // Get.put(customerController());
+    // Get.lazyPut(()=>LoginController());
+  }
+
+}

@@ -37,7 +37,8 @@ class ProductController extends GetxController{
 
   Future<void> addProduct() {
     // Calling the collection to add a new user
-    final data = {'name': name.text,
+    final data = {
+      'name': name.text,
       'description': description.text,
       'modelUrl': modelUrl.text,
       'category':category.text,

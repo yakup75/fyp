@@ -1,10 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:fyp/Controller/AuthController.dart';
+import 'package:fyp/Views/Admin_Panel/AdminPanel.dart';
+import 'package:fyp/Views/MyOrders.dart';
 import 'package:fyp/Views/UploadData.dart';
 import 'package:get/get.dart';
 
 import '../Helper/ThemeToggle.dart';
 class NavDrawer extends StatelessWidget {
+  AuthController auth=Get.find();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -46,9 +50,24 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
             onTap: () async{
-              // SharedPreferences sharedPreferences= await SharedPreferences.getInstance();
-              // sharedPreferences.remove('email');
-              // Get.to(LoginPage());
+              auth.logoutUser();
+
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.shopping_cart),
+            title: Text('My Orders'),
+            onTap: () async{
+              Get.to(()=> const MyOrders());
+
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.shopping_cart),
+            title: Text('Admin Panel'),
+            onTap: () async{
+              Get.to(()=> const AdminPanel());
+
             },
           ),
         ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/Controller/PaymentController.dart';
+import 'package:fyp/Views/CheckOut.dart';
 import 'package:fyp/Widgets/ModelView.dart';
 import 'package:get/get.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -16,11 +18,12 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   CartController cart = Get.find();
   List<TextEditingController> linePrice = [];
+  PaymentController payment=Get.find();
   @override
   void initState() {
     super.initState();
     cart.totalAmount.value=0;
-linePrice.clear();
+    linePrice.clear();
 
     // cart.totalAmount.value=double.parse(linePrice..reduce((a, b) => a + b))
     for (int i = 0; i < cart.quantity.length; i++) {
@@ -246,7 +249,15 @@ linePrice.clear();
 
                             ],
                           ),
-                          ElevatedButton(onPressed: (){}, child: Text('Proceed to Checkout'))
+                          ElevatedButton(onPressed: () async{
+                          // var total=cart.totalAmount.value.toInt();
+                          // print(total);
+                          //  cart.uploadUserSpecificCart();
+                          //  setState((){ cart.cartList.value.clear();});
+                          //
+                          //  //var send=await payment.makePayment(amount: '$total', currency: 'PKR');
+                            Get.to(()=>Checkout());
+                          }, child: const Text('Proceed to Checkout'))
                         ],
                       ),
                     )

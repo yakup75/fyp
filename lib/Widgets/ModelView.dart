@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 
@@ -14,14 +15,13 @@ class _ModelViewState extends State<ModelView> {
   @override
   Widget build(BuildContext context) {
     return ModelViewer(
-     // backgroundColor: Color.fromARGB(0xFF, 0xEE, 0xEE, 0xEE),
+      // backgroundColor: Get.isDarkMode?Colors.:Colors.white12,
       src: '${widget.url}', // a bundled asset file
-      alt: "A 3D model of an astronaut",
       ar: true,
       arModes: ['scene-viewer', 'webxr', 'quick-look'],
       autoRotate: true,
       cameraControls: true,
-
+iosSrc: '${widget.url}',
     );
   }
 }

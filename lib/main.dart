@@ -1,16 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:fyp/Bindings/binding.dart';
 import 'package:fyp/Views/MainPage.dart';
 import 'package:get/get.dart';
 
+import 'Views/Login.dart';
 import 'Widgets/Constants.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(GetMaterialApp( home:MainPage(),
+  Stripe.publishableKey='pk_test_51InumCJNs8MZJzppfyR24EbzNugzhhMjQuLFFgbPVLFeSm7DUNnuNZfspNa4HaGmssA13mP39eH7EkbgqznSAbCd00AdfaFS6x';
+  runApp(GetMaterialApp( home:FirebaseAuth.instance.currentUser==null?const Login(): const MainPage(),
+
     debugShowCheckedModeBanner: false,
     theme: lightTheme,
     initialBinding: defaultBinding(),

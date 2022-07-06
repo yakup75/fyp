@@ -8,8 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 const lightThemeColor=Colors.black45;
 const darkThemeColor=Colors.white70;
 const defaultPadding = 12.0;
-
-
+const kCompleted='Completed';
+const kProcessing='Processing';
+const kCancelled='Cancelled';
 
 
 ThemeData darkTheme = ThemeData(
@@ -26,8 +27,8 @@ ThemeData darkTheme = ThemeData(
         borderSide: const BorderSide(color: darkThemeColor, width: 1.0),
         borderRadius: BorderRadius.circular(20.0),
       ),
-      border: OutlineInputBorder(),
-      labelStyle: TextStyle(
+      border: const OutlineInputBorder(),
+      labelStyle: const TextStyle(
         color:darkThemeColor,
 
       ),),
@@ -36,27 +37,27 @@ ThemeData darkTheme = ThemeData(
 
     focusColor: Colors.white,
     brightness: Brightness.dark,
-    textSelectionTheme: TextSelectionThemeData(
+    textSelectionTheme: const TextSelectionThemeData(
       cursorColor: darkThemeColor,
       selectionColor: darkThemeColor,
       selectionHandleColor: darkThemeColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          shape:MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+          shape:MaterialStateProperty.all<OutlinedBorder>(const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
 
           ),),
 
           backgroundColor: MaterialStateProperty.all<Color>(Colors.purpleAccent),
-          textStyle:  MaterialStateProperty.all<TextStyle>(TextStyle(color: Colors.black,fontWeight: FontWeight.bold,
+          textStyle:  MaterialStateProperty.all<TextStyle>(const TextStyle(color: Colors.black,fontWeight: FontWeight.bold,
           )),
         )
     )
 );
 
 ThemeData lightTheme = ThemeData(
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       color: Colors.deepPurpleAccent,
       centerTitle: true,
 

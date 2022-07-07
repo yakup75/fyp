@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   TextEditingController controllers;
-
+  FormFieldValidator<String>? validator;
   String labelText;
 
-  CustomTextField({  required this.labelText, required this.controllers});
+  CustomTextField({  required this.labelText, required this.controllers,this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10.0),
       child: TextFormField(
         controller: controllers,
-
+        validator: validator,
         // controller: customerName.text=i.customerName==null?'':i.customerName,
         //initialValue: i.customerName.toString(),
         style: TextStyle(),

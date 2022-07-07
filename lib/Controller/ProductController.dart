@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 import '../Models/ProductModel.dart';
 
@@ -37,16 +38,18 @@ class ProductController extends GetxController{
 
   Future<void> addProduct() {
     // Calling the collection to add a new user
+    var productId=const Uuid().v1();
     final data = {
       'name': name.text,
       'description': description.text,
       'modelUrl': modelUrl.text,
       'category':category.text,
-      'price':price.text
+      'price':price.text,
+      'productId': productId
     };
-    return collectionReference
+    return collectionReference.doc(productId)
     //adding to firebase collection
-        .add(data)
+        .set(data)
         .then((value) => Get.snackbar('Success', 'Product Added Successfully',backgroundColor: Colors.green))
         .catchError((error) =>Get.snackbar('Error', '$error',backgroundColor: Colors.red));
   }

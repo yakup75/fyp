@@ -20,7 +20,8 @@ class _UploadDataButtonState extends State<UploadDataButton> {
       padding: const  EdgeInsets.only(top: 10.0,bottom: 10,left: 50,right: 50),
       child: SizedBox(
 
-        child: ElevatedButton(onPressed: () async{
+        child: ElevatedButton(
+          onPressed: () async{
 
           widget.onPressed();
 

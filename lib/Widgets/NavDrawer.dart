@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/Controller/AuthController.dart';
 import 'package:fyp/Views/Admin_Panel/AdminPanel.dart';
@@ -31,6 +32,21 @@ class NavDrawer extends StatelessWidget {
               // )
             ),
           ),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text('Profile'),
+            onTap: () async {
+              Get.to(()=> const ProfileScreen());
+            },
+          ),
+
+          ListTile(
+            leading: Icon(Icons.shopping_cart),
+            title: Text('My Orders'),
+            onTap: () async {
+              Get.to(() => const MyOrders());
+            },
+          ),
           Builder(builder: (context) {
             return ListTile(
               leading: Get.isDarkMode
@@ -40,18 +56,11 @@ class NavDrawer extends StatelessWidget {
               trailing: Container(height: 30, width: 40, child: themeToggle()),
             );
           }),
-          ListTile(
-            leading: Icon(Icons.add_circle_outline_outlined),
-            title: Text('Add Product'),
-            onTap: () async {},
-          ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
-            onTap: () async {
-              Get.to(()=> const ProfileScreen());
-            },
-          ),
+
+
+
+
+
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
@@ -59,19 +68,21 @@ class NavDrawer extends StatelessWidget {
               auth.logoutUser();
             },
           ),
-          ListTile(
-            leading: Icon(Icons.shopping_cart),
-            title: Text('My Orders'),
-            onTap: () async {
-              Get.to(() => const MyOrders());
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.shopping_cart),
-            title: Text('Admin Panel'),
-            onTap: () async {
-              Get.to(() => const AdminPanel());
-            },
+          Builder(
+              builder: (context) {
+                if(FirebaseAuth.instance.currentUser!.email.toString()=='shayaniqbal515@gmail.com'){
+                  return ListTile(
+                    leading: Icon(Icons.person_outlined),
+                    title: Text('Admin Panel'),
+                    onTap: () async {
+                      Get.to(() => const AdminPanel());
+                    },
+                  );
+                }
+                else{
+                  return Text('');
+                }
+              }
           ),
         ],
       ),

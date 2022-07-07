@@ -30,16 +30,38 @@ class _OrderAdminState extends State<OrderAdmin> {
               itemBuilder: (context, index) {
                 DocumentSnapshot doc = snapshot.data!.docs[index];
                 List listOfOrders=doc['order'];
-                print(listOfOrders.asMap());
+
                 return InkWell(
                   onTap: (){
                     Get.to(()=> const AdminOrderDetailsPage(),arguments: [doc['userName'],doc['phoneNumber'],doc['orderDate'],doc['orderStatus'],doc['totalPrice'],doc['orderId'],doc['orderedBy']]);
                   },
-                  child: ListTile(
-                    title: Text(doc['userName']),
-                    trailing: Text(doc['orderStatus']),
-                    leading: Text(doc['orderDate']),
-                  ),
+                  child:Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
+                      shape:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.black26)
+                      ),
+                      child:Column(
+                          children:[
+                            Container(
+                              height: 60,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(doc['orderDate']),
+                                    Text(doc['userName']),
+                                    Text(doc['orderStatus']),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ])),
+                  // ListTile(
+                  //   title: Text(doc['userName']),
+                  //   trailing: Text(doc['orderStatus']),
+                  //   leading: Text(doc['orderDate']),
+                  // ),
                 );
               });
         },

@@ -15,7 +15,7 @@ class CustomTextField extends StatelessWidget {
         controller: controllers,
         validator: validator,
         // controller: customerName.text=i.customerName==null?'':i.customerName,
-        //initialValue: i.customerName.toString(),
+      autovalidateMode: AutovalidateMode.always,
         style: TextStyle(),
         decoration: InputDecoration(labelText: labelText,
           border: OutlineInputBorder(

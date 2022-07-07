@@ -17,7 +17,7 @@ class _UploadDataButtonState extends State<UploadDataButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const  EdgeInsets.only(top: 10.0,bottom: 10,left: 50,right: 50),
+      padding: const  EdgeInsets.only(top: 10.0,bottom: 10,left: 80,right: 80),
       child: SizedBox(
 
         child: ElevatedButton(

@@ -47,6 +47,7 @@ dependencies:
   uuid:
   intl:
   http: ^0.13.4
+  slide_to_act: ^2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

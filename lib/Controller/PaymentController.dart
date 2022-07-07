@@ -10,7 +10,7 @@ class PaymentController extends GetxController {
   TextEditingController address=TextEditingController();
   TextEditingController city=TextEditingController();
   TextEditingController state=TextEditingController();
-
+  TextEditingController email=TextEditingController();
 
   TextEditingController number=TextEditingController();
 

@@ -35,92 +35,104 @@ class _AdminUserDetailsPageState extends State<AdminUserDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('$userName'),
+        centerTitle: true,
+      ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('User Name'),
-                  Text(userName),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Phone Number'),
-                  Text(phoneNumber),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Email'),
-                  Text(email),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('User Id'),
-                  Text(userId),
-                ],
-              ),
-            ),
-            Center(
-              child: ElevatedButton(
-                child: Text(' Delete this user'),
-                onPressed: ()async{
-                  try{
-                   try{
-                     List<String> orderIds=[];
-                     QuerySnapshot snapshot= await FirebaseFirestore.instance.collection('Orders').get();
-                     for (var element in snapshot.docs) {
-                       if(element.get('orderedBy')==userId){
-                         setState((){
-                           orderIds.add(element['orderId']);
-                         });
-                         print(orderIds);
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('User Name',style: TextStyle(fontSize: 18)),
+                      Text(userName,style: TextStyle(fontSize: 18)),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Phone Number',style: TextStyle(fontSize: 18),),
+                      Text(phoneNumber,style: TextStyle(fontSize: 18)),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Email',style: TextStyle(fontSize: 18)),
+                      Text(email,style: TextStyle(fontSize: 18)),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('User Id',style: TextStyle(fontSize: 18)),
+                      Text(userId,style: TextStyle(fontSize: 14)),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: Text(' Delete this user'),
+                    onPressed: ()async{
+                      try{
+                       try{
+                         List<String> orderIds=[];
+                         QuerySnapshot snapshot= await FirebaseFirestore.instance.collection('Orders').get();
+                         for (var element in snapshot.docs) {
+                           if(element.get('orderedBy')==userId){
+                             setState((){
+                               orderIds.add(element['orderId']);
+                             });
+                             print(orderIds);
+                           }
+                         }
+                         for (int i =0; i<orderIds.length; i++){
+                           await FirebaseFirestore.instance.collection('Orders').doc(orderIds[i]).delete();
+                         }
                        }
-                     }
-                     for (int i =0; i<orderIds.length; i++){
-                       await FirebaseFirestore.instance.collection('Orders').doc(orderIds[i]).delete();
-                     }
-                   }
-                   on FirebaseException catch(e){
-                     print(e.message);
-                   }
+                       on FirebaseException catch(e){
+                         print(e.message);
+                       }
 
-                   try{
-                     QuerySnapshot snapshot= await FirebaseFirestore.instance.collection('users').doc(userId).collection('orders').get();
-                     for (DocumentSnapshot ds in snapshot.docs) {
-                       ds.reference.delete();
-                     }
-                   }
-                   on FirebaseException catch(e){
-                     print(e.message);
-                   }
-                   await FirebaseFirestore.instance.collection('users').doc(userId).delete();
-                    Get.back();
-                  }
-                  on FirebaseException catch(e){
-                    print(e.message);
-                  }
-                },
-              ),
+                       try{
+                         QuerySnapshot snapshot= await FirebaseFirestore.instance.collection('users').doc(userId).collection('orders').get();
+                         for (DocumentSnapshot ds in snapshot.docs) {
+                           ds.reference.delete();
+                         }
+                       }
+                       on FirebaseException catch(e){
+                         print(e.message);
+                       }
+                       await FirebaseFirestore.instance.collection('users').doc(userId).delete();
+                        Get.back();
+                      }
+                      on FirebaseException catch(e){
+                        print(e.message);
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

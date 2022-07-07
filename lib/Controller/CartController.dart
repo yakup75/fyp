@@ -31,7 +31,7 @@ class CartController extends GetxController{
 
   }
 
-  uploadUserSpecificCart({required String userName, required String address,required String phone,required String city,required String state})async{
+  uploadUserSpecificCart({required String userName, required String address,required String phone,required String city,required String state,required String email})async{
     try{
       var date= DateTime.now();
       orderId=  const Uuid().v1();
@@ -46,6 +46,7 @@ class CartController extends GetxController{
         'userName':userName,
         'address':'${address},${city},${state},Pakistan',
         'phoneNumber':phone,
+        'email':email
       });
 
 
@@ -54,7 +55,7 @@ class CartController extends GetxController{
       print(e.message);
     }
   }
-  uploadOverAllCart({required String userName, required String address,required String phone,required String city,required String state})async{
+  uploadOverAllCart({required String userName, required String address,required String phone,required String city,required String state,required String email})async{
     try{
       var date= DateTime.now();
       var formattedDate = DateFormat('yyyy-MM-dd').format(date);
@@ -68,6 +69,7 @@ class CartController extends GetxController{
         'userName':userName,
         'address':'${address},${city},${state},Pakistan',
         'phoneNumber':phone,
+        'email':email
       });
 
     }

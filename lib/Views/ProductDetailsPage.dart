@@ -4,6 +4,7 @@ import 'package:fyp/Controller/ProductController.dart';
 import 'package:fyp/Widgets/ModelView.dart';
 import 'package:get/get.dart';
 
+import 'CheckOut.dart';
 import 'cartPage.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -156,21 +157,26 @@ class _ProductDetailsState extends State<ProductDetails> {
                          ),
                        ),
                      ),
-                     Container(
-                       height: 60,
-                       width: 110,
-                       child: Card(
-                         color: Colors.green,
-                         shape: RoundedRectangleBorder(
-                           borderRadius: BorderRadius.only(
-                               bottomLeft: Radius.circular(40.0),
-                               bottomRight: Radius.circular(20.0),
-                               topRight: Radius.circular(20.0)),
-                           side: BorderSide(color: Colors.grey, width: 0.7),
+                     InkWell(
+                       onTap: (){
+                       //  Get.to(()=>Checkout());
+                       },
+                       child: Container(
+                         height: 60,
+                         width: 110,
+                         child: Card(
+                           color: Colors.green,
+                           shape: RoundedRectangleBorder(
+                             borderRadius: BorderRadius.only(
+                                 bottomLeft: Radius.circular(40.0),
+                                 bottomRight: Radius.circular(20.0),
+                                 topRight: Radius.circular(20.0)),
+                             side: BorderSide(color: Colors.grey, width: 0.7),
+                           ),
+                           elevation: 5,
+                           margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                           child: Center(child: Text('BUY IT NOW!!')),
                          ),
-                         elevation: 5,
-                         margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                         child: Center(child: Text('BUY IT NOW!!')),
                        ),
                      ),
                    ],

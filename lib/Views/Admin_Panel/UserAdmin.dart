@@ -18,6 +18,7 @@ class _UserAdminState extends State<UserAdmin> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Users'),
+        centerTitle: true,
       ),
       body:  StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('users').snapshots(),
@@ -33,10 +34,27 @@ class _UserAdminState extends State<UserAdmin> {
                   onTap: (){
                     Get.to(()=> const AdminUserDetailsPage(),arguments: [doc['name'],doc['email'],doc['address'],doc['userId'],doc['userPhone']]);
                   },
-                  child: ListTile(
-                    title: Text(doc['name']),
-                    trailing: Text(doc['email']),
-                  ),
+                  child: Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
+                      shape:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.black26)
+                      ),
+                    child:Column(
+                      children:[
+                        Container(
+                          height: 60,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(doc['name']),
+                                Text(doc['email']),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                    ])),
                 );
               });
         },

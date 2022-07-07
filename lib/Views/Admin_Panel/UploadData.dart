@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/Controller/ProductController.dart';
+import 'package:fyp/Views/Admin_Panel/ProductsAdmin.dart';
 import 'package:get/get.dart';
 
 import '../../Widgets/Button.dart';
@@ -76,21 +77,33 @@ class _UploadDataState extends State<UploadData> {
                     labelText: 'Product Name',
                     validator: (val) {
                       if (val!.isEmpty) {
-                        return "Value cant be null";
+                        return "Field Required";
                       }
                     },
                   ),
                   CustomTextField(
                     controllers: product.category,
-                    labelText: 'Category',
+                    labelText: 'Category', validator: (val) {
+                    if (val!.isEmpty) {
+                      return "Field Required";
+                    }
+                  },
                   ),
                   CustomTextField(
                     controllers: product.modelUrl,
-                    labelText: 'Model Url',
+                    labelText: 'Model Url', validator: (val) {
+                    if (val!.isEmpty) {
+                      return "Field Required";
+                    }
+                  },
                   ),
                   CustomTextField(
                     controllers: product.price,
-                    labelText: 'Price',
+                    labelText: 'Price', validator: (val) {
+                    if (val!.isEmpty) {
+                      return "Field Required";
+                    }
+                  },
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
@@ -107,10 +120,12 @@ class _UploadDataState extends State<UploadData> {
                         ),
                         filled: true,
                       ),
+
+
                     ),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 20,
                   ),
                   UploadDataButton(
                     text: 'Upload',
@@ -129,23 +144,39 @@ class _UploadDataState extends State<UploadData> {
                               .collection('products')
                               .doc(productId)
                               .update(data);
+                          Get.snackbar('Successful', 'Product Updated Successfully',duration: const Duration(seconds: 2),backgroundColor: Colors.green,snackPosition: SnackPosition.BOTTOM);
+
                         } else {
                           product.addProduct();
+                          Get.snackbar('Successful', 'Product Added Successfully',duration: const Duration(seconds: 2),backgroundColor: Colors.green,snackPosition: SnackPosition.BOTTOM);
+
                         }
+                        Get.off(ProductsAdmin());
                       }
                     },
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  UploadDataButton(
-                      text: 'Delete',
-                      onPressed: () async {
+
+                  Builder(
+                    builder: (context) {
+                      if(isEditing){
+                      return ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                        ),
+                          onPressed: () async {
                         await FirebaseFirestore.instance
                             .collection('products')
                             .doc(productId)
                             .delete();
-                      })
+                        Get.off(ProductsAdmin());
+                      }, child: Text('Delete'));
+                    }
+                      else{
+                        return Text('');
+                      }
+                    }
+                  )
+
                 ],
               ),
             ),

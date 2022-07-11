@@ -17,9 +17,19 @@ class Checkout extends StatefulWidget {
 }
 
 class _CheckoutState extends State<Checkout> {
+  var args=Get.arguments;
+  bool get buyNow => args !=null;
   PaymentController payment=Get.find();
   CartController cart=Get.find();
   final key = GlobalKey<FormState>();
+  @override
+  void initState(){
+    super.initState();
+    if(buyNow==true){
+      print('args total price ${args[1]}');
+      cart.totalAmount.value=double.parse(args[1].toString());
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,30 +132,58 @@ class _CheckoutState extends State<Checkout> {
                           ),
                         onSubmit: ()async{
     if (key.currentState!.validate()) {
-      var total = cart.totalAmount.value.toInt();
-      var send = await payment.makePayment(amount: '$total', currency: 'PKR');
-      print(total);
-      cart.uploadUserSpecificCart(userName: payment.name.text,
-          address: payment.address.text,
-          phone: payment.number.text,
-          city: payment.city.text,
-          state: payment.state.text,
-          email: payment.email.text);
+      if(buyNow==false) {
+        var total = cart.totalAmount.value.toInt();
+        await payment.makePayment(amount: '$total', currency: 'PKR');
+        print(total);
+        cart.uploadUserSpecificCart(userName: payment.name.text,
+            address: payment.address.text,
+            phone: payment.number.text,
+            city: payment.city.text,
+            state: payment.state.text,
+            email: payment.email.text);
 
-      cart.uploadOverAllCart(userName: payment.name.text,
-          address: payment.address.text,
-          phone: payment.number.text,
-          city: payment.city.text,
-          state: payment.state.text,
-          email: payment.email.text);
-      setState(() {
-        cart.cartList.value.clear();
-      });
-      Navigator.pushAndRemoveUntil(
-          context, MaterialPageRoute(builder: (builder) => const MainPage()), (
-          route) => false);
-      // Get.off(()=> const MainPage());
+        cart.uploadOverAllCart(userName: payment.name.text,
+            address: payment.address.text,
+            phone: payment.number.text,
+            city: payment.city.text,
+            state: payment.state.text,
+            email: payment.email.text);
+        setState(() {
+          cart.cartList.value.clear();
+        });
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (builder) => const MainPage()), (
+            route) => false);
+        // Get.off(()=> const MainPage());
 
+      }
+      else{
+        var total = cart.totalAmount.value.toInt();
+        await payment.makePayment(amount: '$total', currency: 'PKR');
+        print(total);
+        cart.buyNowUserSpecificCart(userName: payment.name.text,
+            address: payment.address.text,
+            phone: payment.number.text,
+            city: payment.city.text,
+            state: payment.state.text,
+            email: payment.email.text);
+
+        cart.buyNowCart(userName: payment.name.text,
+            address: payment.address.text,
+            phone: payment.number.text,
+            city: payment.city.text,
+            state: payment.state.text,
+            email: payment.email.text);
+        setState(() {
+          cart.buyList.value.clear();
+        });
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (builder) => const MainPage()), (
+            route) => false);
+      }
     }
     else{
       Get.snackbar('Error', 'Please Fill the required fields',duration: Duration(seconds: 2),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);

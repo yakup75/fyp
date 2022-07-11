@@ -16,6 +16,10 @@ class _MyOrdersState extends State<MyOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Orders'),
+        centerTitle: true,
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
@@ -33,18 +37,45 @@ class _MyOrdersState extends State<MyOrders> {
               itemBuilder: (context, index) {
                 DocumentSnapshot doc = snapshot.data!.docs[index];
                 List listOfOrders=doc['order'];
-                print(listOfOrders.asMap());
+
                 return InkWell(
                   onTap: (){
                     Get.to(()=> OrderDetailPage(),arguments: listOfOrders);
                   },
-                  child: ListTile(
-                    title: Text(doc['totalPrice']),
-                    trailing: Text(doc['orderStatus']),
-                    leading: Text(doc['orderDate']),
-                  ),
+                  child:Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
+                      shape:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.black26)
+                      ),
+                      child:Column(
+                          children:[
+                            Container(
+                              height: 60,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(doc['orderDate']),
+                                    Text(doc['totalPrice']),
+                                    Text(doc['orderStatus'],style: TextStyle(fontWeight: FontWeight.bold,
+                                      color: doc['orderStatus']=='Processing'?Colors.yellow:doc['orderStatus']=='Cancelled'?Colors.red:Colors.green,
+                                    ),),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ])),
+                  // ListTile(
+                  //   title: Text(doc['userName']),
+                  //   trailing: Text(doc['orderStatus']),
+                  //   leading: Text(doc['orderDate']),
+                  // ),
                 );
               });
+
+
+
         },
       ),
     );

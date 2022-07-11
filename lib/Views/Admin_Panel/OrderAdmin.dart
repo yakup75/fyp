@@ -33,7 +33,7 @@ class _OrderAdminState extends State<OrderAdmin> {
 
                 return InkWell(
                   onTap: (){
-                    Get.to(()=> const AdminOrderDetailsPage(),arguments: [doc['userName'],doc['phoneNumber'],doc['orderDate'],doc['orderStatus'],doc['totalPrice'],doc['orderId'],doc['orderedBy']]);
+                    Get.to(()=> const AdminOrderDetailsPage(),arguments: [doc['userName'],doc['phoneNumber'],doc['orderDate'],doc['orderStatus'],doc['totalPrice'],doc['orderId'],doc['orderedBy'],doc['address']]);
                   },
                   child:Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
                       shape:  OutlineInputBorder(
@@ -50,7 +50,9 @@ class _OrderAdminState extends State<OrderAdmin> {
                                   children: [
                                     Text(doc['orderDate']),
                                     Text(doc['userName']),
-                                    Text(doc['orderStatus']),
+                                    Text(doc['orderStatus'],style: TextStyle(fontWeight: FontWeight.bold,
+                                      color: doc['orderStatus']=='Processing'?Colors.yellow:doc['orderStatus']=='Cancelled'?Colors.red:Colors.green,
+                                    ),),
                                   ],
                                 ),
                               ),

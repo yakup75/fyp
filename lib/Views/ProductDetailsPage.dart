@@ -19,6 +19,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   ProductController product=Get.find();
   CartController cart=Get.find();
   var arguments=Get.arguments;
+  var buyNow=false;
   @override
   void initState() {
     super.initState();
@@ -159,7 +160,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                      ),
                      InkWell(
                        onTap: (){
-                       //  Get.to(()=>Checkout());
+                         cart.buyNow(product.prodName.value,
+                             double.parse(product.prodPrice.value),
+                             product.prodModelUrl.value);
+                              print(cart.buyList.value);
+                         Get.to(()=>Checkout(),arguments: [buyNow,product.prodPrice.toString()]);
                        },
                        child: Container(
                          height: 60,

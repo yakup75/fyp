@@ -19,6 +19,7 @@ class _ProductsAdminState extends State<ProductsAdmin> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
+        centerTitle: true,
         actions: [
           IconButton(onPressed: (){
             Get.to(()=>const UploadData(),arguments: ['null']);
@@ -39,13 +40,32 @@ class _ProductsAdminState extends State<ProductsAdmin> {
                   onTap: (){
                     Get.to(()=>UploadData(),arguments: [index,doc['name'],doc['price'],doc['productId'],doc['modelUrl'],doc['category'],doc['description']]);
                   },
-                  child: ListTile(
-                    leading: CircleAvatar(
-                        //child: ModelViewer(src: doc['modelUrl'],ar: false,)
+                  child: Card(
+                    elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
+                    shape:  OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.black26)
                     ),
-                    title: Text(doc['name']),
-                    trailing: Text(doc['price'].toString()),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 80,
+                            width: 80,
+                            // child: ModelViewer(
+                            //   src: doc['modelUrl'],
+                            // ),
+                          ),
+                          Text(doc['name'].toString(),style: TextStyle(fontSize: 18)),
+                          Text(doc['price'].toString(),style: TextStyle(fontSize: 18)),
+                        ],
+                      ),
+                    ),
+
                   ),
+
                 );
               });
       },

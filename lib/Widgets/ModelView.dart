@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -12,6 +14,7 @@ class ModelView extends StatefulWidget {
 }
 
 class _ModelViewState extends State<ModelView> {
+
   @override
   Widget build(BuildContext context) {
     return ModelViewer(

@@ -119,13 +119,13 @@ class _CartState extends State<Cart> {
                                             crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                             children: [
-                                              Container(
+                                              SizedBox(
                                                 height: 110,
                                                 width: 90,
-                                                // child: ModelViewer(
-                                                //       src: '${cart.cartList.value[index]['modelUrl'].toString()}', // a bundled asset file
-                                                //
-                                                //   ),
+                                                child: ModelViewer(
+                                                      src: '${cart.cartList.value[index]['modelUrl'].toString()}', // a bundled asset file
+
+                                                  ),
                                               ),
                                               const SizedBox(
                                                 width: 10,

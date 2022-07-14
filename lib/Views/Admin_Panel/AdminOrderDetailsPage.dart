@@ -142,19 +142,39 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                 ),
               ),
               SizedBox(height: 20,),
-              Center(
-                child: ElevatedButton(
-                  child: Text('Update Status'),
-                  onPressed: ()async{
-                    await FirebaseFirestore.instance.collection('Orders').doc(orderId).update({
-                      'orderStatus': orderStatus,
-                    });
-                    await FirebaseFirestore.instance.collection('users').doc(userId).collection('orders').doc(orderId).update({
-                      'orderStatus': orderStatus,
-                    });
-                    Get.off(OrderAdmin());
-                  },
-                ),
+              Column(
+                children: [
+                  Center(
+                    child: ElevatedButton(
+                      child: Text('Update Status'),
+                      onPressed: ()async{
+                        await FirebaseFirestore.instance.collection('Orders').doc(orderId).update({
+                          'orderStatus': orderStatus,
+                        });
+                        await FirebaseFirestore.instance.collection('users').doc(userId).collection('orders').doc(orderId).update({
+                          'orderStatus': orderStatus,
+                        });
+                        Get.off(OrderAdmin());
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Center(
+                    child: ElevatedButton(
+
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                        ),
+
+                      child: const Text('Delete Order'),
+                      onPressed: ()async{
+                        await FirebaseFirestore.instance.collection('Orders').doc(orderId).delete();
+                        await FirebaseFirestore.instance.collection('users').doc(userId).collection('orders').doc(orderId).delete();
+                        Get.off(OrderAdmin());
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

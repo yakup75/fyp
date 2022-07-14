@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/Views/order_detail_page.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+
 
 class MyOrders extends StatefulWidget {
   const MyOrders({Key? key}) : super(key: key);
@@ -28,10 +28,13 @@ class _MyOrdersState extends State<MyOrders> {
             .snapshots(),
         builder: (context,snapshot){
           if(snapshot.data==null){
-            return  Center(
-              child: Container(),
+            return  const Center(
+              child: CircularProgressIndicator(
+                color: Colors.deepPurple,
+              ),
             );
           }
+
           return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
@@ -45,7 +48,7 @@ class _MyOrdersState extends State<MyOrders> {
                   child:Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
                       shape:  OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.black26)
+                          borderSide: const BorderSide(color: Colors.black26)
                       ),
                       child:Column(
                           children:[
@@ -66,11 +69,7 @@ class _MyOrdersState extends State<MyOrders> {
                             ),
 
                           ])),
-                  // ListTile(
-                  //   title: Text(doc['userName']),
-                  //   trailing: Text(doc['orderStatus']),
-                  //   leading: Text(doc['orderDate']),
-                  // ),
+
                 );
               });
 

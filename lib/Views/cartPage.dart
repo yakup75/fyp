@@ -57,7 +57,7 @@ class _CartState extends State<Cart> {
                     padding: const EdgeInsets.only(top: 28.0),
                     child: Column(
                       children: [
-                        Center(child: Image.asset('images/emptycart.png')),
+                        Center(child: Image.asset('images/noOrders.png')),
                         SizedBox(height: 50,),
                         Text(
                           'Your cart is Empty',

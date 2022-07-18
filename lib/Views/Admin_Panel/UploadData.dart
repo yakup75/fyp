@@ -81,6 +81,63 @@ class _UploadDataState extends State<UploadData> {
                       }
                     },
                   ),
+                  // DropdownButton<String>(
+                  //   focusColor: Colors.white,
+                  //   value: product.category.text,
+                  //   //elevation: 5,
+                  //
+                  //
+                  //   items: <String>[product.categories.value.toString()]
+                  //       .map<DropdownMenuItem<String>>((String value) {
+                  //     return DropdownMenuItem<String>(
+                  //       value: value,
+                  //       child: Text(
+                  //         value,
+                  //         style: const  TextStyle(fontSize: 18),
+                  //       ),
+                  //     );
+                  //   }).toList(),
+                  //   onChanged: (String? value) {
+                  //     setState(() {
+                  //       product.category.text = value.toString();
+                  //     });
+                  //   },
+                  // ),
+                  // DropdownButtonFormField(
+                  //
+                  //   decoration: InputDecoration(
+                  //
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: const BorderRadius.all(
+                  //         const Radius.circular(10.0),
+                  //       ),
+                  //     ),
+                  //     filled: true,
+                  //     hintStyle: TextStyle(color: Colors.grey[800]),
+                  //     labelText: "Customer",
+                  //   ),
+                  //
+                  //   items: product.categories.value.map((itms) {
+                  //     return new DropdownMenuItem(
+                  //       onTap: () {
+                  //         product.category.text = itms;
+                  //         print(product.category.text);
+                  //       },
+                  //       child: new Text(itms,
+                  //       ),
+                  //       value: itms.toString(),
+                  //     );
+                  //   }).toList(),
+                  //   onChanged: (itm) {
+                  //     setState(() {
+                  //       product.category.text = itm as String;
+                  //
+                  //       print(product.category.text);
+                  //     });
+                  //   },
+                  //   value: product.category.text,
+                  //
+                  // ),
                   CustomTextField(
                     controllers: product.category,
                     labelText: 'Category', validator: (val) {

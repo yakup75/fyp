@@ -45,9 +45,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                 child: Stack(
                   alignment: Alignment.topRight,
                   children:[
-                  //   ModelView(
-                  //   url: '${product.prodModelUrl.value}',
-                  // ),
+                    ModelView(
+                    url: '${product.prodModelUrl.value}',
+                  ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(

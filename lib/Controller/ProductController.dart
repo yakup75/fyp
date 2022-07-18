@@ -18,6 +18,7 @@ class ProductController extends GetxController{
   var prodDesc=''.obs;
   var prodModelUrl=''.obs;
   var prodPrice=''.obs;
+  RxList categories=[].obs;
 
   
   @override
@@ -25,6 +26,7 @@ class ProductController extends GetxController{
     super.onInit();
     collectionReference=fireStore.collection('products');
     products.bindStream(getAllProducts());
+
   }
   Stream<List<ProductModel>> getAllProducts()=>
       collectionReference.snapshots().map((query) =>

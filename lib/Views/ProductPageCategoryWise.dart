@@ -39,7 +39,8 @@ var catName;
           'price':product.products[i].price.toString(),
           'description':product.products[i].description.toString(),
           'category':product.products[i].category.toString(),
-          'modelUrl':product.products[i].modelUrl.toString()
+          'modelUrl':product.products[i].modelUrl.toString(),
+          'imageUrl':product.products[i].imageUrl.toString()
         };prods.add(catMap);
       }
 
@@ -51,7 +52,7 @@ var catName;
         centerTitle: true,
         title: Text(
           catName,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600
           ),
@@ -70,18 +71,18 @@ var catName;
                   ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    physics: ScrollPhysics(),
+                    physics: const ScrollPhysics(),
                     itemCount: prods.length,
                     itemBuilder: (context,index)=>
                         InkWell(
                           onTap: (){
-                            Get.to(()=>ProductDetails(),
-                                arguments: ['${prods[index]['name']}','${prods[index]['description']}','${prods[index]['modelUrl']}','${prods[index]['price']}']);
+                            Get.to(()=>const ProductDetails(),
+                                arguments: ['${prods[index]['name']}','${prods[index]['description']}','${prods[index]['modelUrl']}','${prods[index]['price']}','${prods[index]['imageUrl']}']);
                           },
-                          child: Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
+                          child: Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: const EdgeInsets.all(6),
                             shape:  OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: Colors.black26)
+                                borderSide: const BorderSide(color: Colors.black26)
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -92,12 +93,13 @@ var catName;
                                   Container(
                                     height: 110,
                                     width: 110,
+                                 child: Image.network(prods[index]['imageUrl'])
                                     // child: ModelViewer(
                                     //       src: '${prods[index]['modelUrl']}', // a bundled asset file
                                     //
                                     //   ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Column(
@@ -105,9 +107,9 @@ var catName;
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text('${prods[index]['name']} \n',
-                                        style: TextStyle(fontSize: 16),),
+                                        style: const TextStyle(fontSize: 16),),
                                       Text('\Rs ${prods[index]['price'] } \t',
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),),
+                                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),),
 
                                     ],
                                   ),

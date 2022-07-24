@@ -4,6 +4,8 @@ import 'package:fyp/Views/Login.dart';
 import 'package:fyp/Widgets/DividerHeading.dart';
 import 'package:get/get.dart';
 
+import 'SignUpWithPhone.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -174,11 +176,11 @@ class _SignUpState extends State<SignUp> {
                             ),
                             InkWell(
                               onTap: (){
-                                auth.signInWithFacebook(context);
+                                Get.to(()=> const SignUpWithPhoneNumber());
                               },
-                              child: Container(
-                                  height: 50,
-                                  child: Image.asset('images/fb.png')),
+                              child: const Icon(
+                                Icons.phone,
+                                size: 32,),
                             ),
                           ],
                         ),

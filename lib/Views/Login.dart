@@ -5,6 +5,8 @@ import 'package:fyp/Views/SignUpWithPhone.dart';
 import 'package:fyp/Widgets/DividerHeading.dart';
 import 'package:get/get.dart';
 
+import 'ResetPassword.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -33,9 +35,9 @@ var isLoading =false;
                 crossAxisAlignment: CrossAxisAlignment.center,
 
                 children: [
-                  Padding(
-              padding: const EdgeInsets.only(top: 100.0),
-                    child: Text("Let's LOGIN First !!",style: TextStyle(
+                  const Padding(
+              padding: EdgeInsets.only(top: 100.0),
+                    child: const Text("Let's LOGIN First !!",style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
 
@@ -50,7 +52,7 @@ var isLoading =false;
 
                     TextFormField(
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email),
+                        prefixIcon: const Icon(Icons.email),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -62,13 +64,13 @@ var isLoading =false;
                       keyboardType: TextInputType.emailAddress,
                       controller: auth.email,
                     ),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         TextField(
                           controller: auth.password,
 
                           obscureText: _isHidden,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
+                            prefixIcon: const Icon(Icons.lock),
                             suffix: InkWell(
                               onTap: _togglePasswordView,
                               child: Icon(
@@ -88,8 +90,16 @@ var isLoading =false;
                             // fillColor: Colors.grey[300]
                           ),
 
-                        ),
-                    SizedBox(height: 30,),
+                        ), const SizedBox(height: 20,),
+                     InkWell(
+                      onTap: (){
+                        Get.to(()=>ForgotPasswordWidget());
+                      },
+                      child: const Text('Forgot Password?',style: TextStyle(
+                        fontSize: 20
+                      ),),
+                    ),
+                    const SizedBox(height: 30,),
                     // ElevatedButton(onPressed: (){
                     //   auth.signupUserwithEmail(auth.email.text, auth.password.text);
                     // }, child: Text(
@@ -144,9 +154,9 @@ var isLoading =false;
                         ),
 
             DividerHeading(heading: 'OR'),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text('Sign In with',style: TextStyle(fontSize: 18),),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: const Text('Sign In with',style: const TextStyle(fontSize: 18),),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -160,22 +170,21 @@ var isLoading =false;
                         height: 50,
                         child: Image.asset('images/google.png')),
                 ),
-                InkWell(
-                    onTap: (){
-                      auth.signInWithFacebook(context);
-                    },
-                    child: Container(
-                        height: 50,
-                        child: Image.asset('images/fb.png')),
-                ),
+                // InkWell(
+                //     onTap: (){
+                //       auth.signInWithFacebook(context);
+                //     },
+                //     child: Container(
+                //         height: 50,
+                //         child: Image.asset('images/fb.png')),
+                // ),
                 InkWell(
                   onTap: (){
                     Get.to(()=> const SignUpWithPhoneNumber());
                   },
-                  child: Container(
-                      height: 50,
-                      color: Colors.red,
-                      child: Image.asset('images/fb.png')),
+                  child: const Icon(
+                      Icons.phone,
+                  size: 32,),
                 ),
               ],
             ),

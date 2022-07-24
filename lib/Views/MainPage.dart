@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
       if(contain.isEmpty){
         Map catMap={
           'Category':product.products[i].category,
-          //'modelUrl':product.products[i].modelUrl
+          'imageUrl':product.products[i].imageUrl
         };product.categories.add(catMap);
       }
 
@@ -103,7 +103,8 @@ crossAxisAlignment: CrossAxisAlignment.center,
                                         ),
                             child: Center(
                                 child:
-                                Image.asset(product.categories.value[index]['Category'].toString()=='Chair'?'images/chair.png':product.categories.value[index]['Category'].toString()=='Bed'?'images/bed.png':product.categories.value[index]['Category'].toString()=='Bench'?'images/bench.png':product.categories.value[index]['Category'].toString()=='Couch'?'images/couch.png':product.categories.value[index]['Category'].toString()=='Table'?'images/table.png':'images/mix.png')
+                                Image.network(product.categories.value[index]['imageUrl'].toString()),
+                                //Image.asset(product.categories.value[index]['Category'].toString()=='Chair'?'images/chair.png':product.categories.value[index]['Category'].toString()=='Bed'?'images/bed.png':product.categories.value[index]['Category'].toString()=='Bench'?'images/bench.png':product.categories.value[index]['Category'].toString()=='Couch'?'images/couch.png':product.categories.value[index]['Category'].toString()=='Table'?'images/table.png':'images/mix.png')
                                 //ModelViewer(src: product.categories.value[index]['modelUrl'].toString())
                             ),
                           ),

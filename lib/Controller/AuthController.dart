@@ -40,12 +40,22 @@ TextEditingController name=TextEditingController();
       print(e);
     }
   }
+Future<void> resetPassword(String email) async {
+  try{
+    await firebaseAuth.sendPasswordResetEmail(email: email);
+    Get.snackbar('Successful', 'We have sent you an password reset email, Please check your spam folder too',duration: const Duration(seconds: 4),backgroundColor: Colors.green,snackPosition: SnackPosition.BOTTOM);
+    Get.off(()=>const Login());
+  }
+  on FirebaseException  catch(e){
+    Get.snackbar('Error', '${e.message}',duration: Duration(seconds: 2),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);
+      }
+}
 signinUserwithEmail(String email,password) async{
   try{
     await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
   }
   on FirebaseAuthException catch(e){
-    Get.snackbar('Error', '$e',duration: const Duration(seconds: 5),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);
+    Get.snackbar('Error', '${e.message}',duration: Duration(seconds: 2),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);
     print(e);
   }
 }
@@ -56,7 +66,7 @@ logoutUser() async{
     Get.off(()=>const Login());
   }
   on FirebaseAuthException catch(e){
-    print(e);
+    Get.snackbar('Error', '${e.message}',duration: Duration(seconds: 2),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);
   }
 }
 Future signInWithGoogle(BuildContext context,) async {
@@ -83,7 +93,7 @@ Future signInWithGoogle(BuildContext context,) async {
         Get.off(()=>const MainPage());
       }
       on FirebaseException catch(e){
-        print(e.toString());
+        Get.snackbar('Error', '${e.message}',duration: Duration(seconds: 2),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);
       }
     }
     if (kDebugMode) {

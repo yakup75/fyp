@@ -66,7 +66,7 @@ class _AllProductsState extends State<AllProducts> {
                         InkWell(
                           onTap: (){
                             Get.to(()=>ProductDetails(),
-                                arguments: ['${product.products[index].name}','${product.products[index].description}','${product.products[index].modelUrl}','${product.products[index].price}']);
+                                arguments: ['${product.products[index].name}','${product.products[index].description}','${product.products[index].modelUrl}','${product.products[index].price}','${product.products[index].imageUrl}']);
                           },
                           child: Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
                             shape:  OutlineInputBorder(
@@ -82,10 +82,11 @@ class _AllProductsState extends State<AllProducts> {
                                   Container(
                                     height: 110,
                                     width: 110,
-                                    child: ModelViewer(
-                                      src: '${product.products[index].modelUrl}', // a bundled asset file
-
-                                    ),
+                                    child: Image.network(product.products[index].imageUrl!),
+                                    // child: ModelViewer(
+                                    //   src: '${product.products[index].modelUrl}', // a bundled asset file
+                                    //
+                                    // ),
                                   ),
                                   SizedBox(
                                     width: 10,

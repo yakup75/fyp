@@ -6,9 +6,8 @@ import 'package:fyp/Controller/PaymentController.dart';
 import 'package:fyp/Views/MainPage.dart';
 import 'package:get/get.dart';
 import 'package:slide_to_act/slide_to_act.dart';
-
 import '../Widgets/TextField.dart';
-
+import 'package:csc_picker/csc_picker.dart';
 class Checkout extends StatefulWidget {
   const Checkout({Key? key}) : super(key: key);
 
@@ -35,7 +34,7 @@ class _CheckoutState extends State<Checkout> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
          'Check Out',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
@@ -69,9 +68,9 @@ class _CheckoutState extends State<Checkout> {
                       child: TextFormField(
                         controller: payment.number,
                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration( border: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
+                        decoration: const InputDecoration( border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0),
                           ),
                         ),
                             filled: true,
@@ -90,9 +89,9 @@ class _CheckoutState extends State<Checkout> {
                       child: TextFormField(
                         controller: payment.address,
                         maxLines: 3,
-                        decoration: InputDecoration( border: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
+                        decoration: const InputDecoration( border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0),
                           ),
                         ),
                             filled: true,
@@ -107,16 +106,36 @@ class _CheckoutState extends State<Checkout> {
                       ),
 
                     ),
-                    CustomTextField(controllers:payment.city,labelText: 'City', validator: (val) {
-                      if (val!.isEmpty) {
-                        return "Field Required";
-                      }
-                    },),
-                    CustomTextField(controllers:payment.state,labelText: 'State', validator: (val) {
-                      if (val!.isEmpty) {
-                        return "Field Required";
-                      }
-                    },),
+                    CSCPicker(
+                      dropdownDecoration: const BoxDecoration(
+
+                      ),
+                      onCountryChanged: (value) {
+                        setState(() {
+                         String countryValue = value;
+                        });
+                      },
+                      onStateChanged:(value) {
+                        setState(() {
+                          payment.state.text = value.toString();
+                        });
+                      },
+                      onCityChanged:(value) {
+                        setState(() {
+                          payment.city.text = value.toString();
+                        });
+                      },
+                    ),
+                    // CustomTextField(controllers:payment.city,labelText: 'City', validator: (val) {
+                    //   if (val!.isEmpty) {
+                    //     return "Field Required";
+                    //   }
+                    // },),
+                    // CustomTextField(controllers:payment.state,labelText: 'State', validator: (val) {
+                    //   if (val!.isEmpty) {
+                    //     return "Field Required";
+                    //   }
+                    // },),
 
 
                     Padding(
@@ -126,7 +145,7 @@ class _CheckoutState extends State<Checkout> {
                         outerColor: Colors.green,
                         sliderButtonIcon: const Icon(Icons.arrow_forward_ios_sharp,color: Colors.black,),
                         text: 'Check Out',
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold
                           ),
@@ -186,7 +205,7 @@ class _CheckoutState extends State<Checkout> {
       }
     }
     else{
-      Get.snackbar('Error', 'Please Fill the required fields',duration: Duration(seconds: 2),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Error', 'Please Fill the required fields',duration: const Duration(seconds: 2),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);
     }
     },
                       ),

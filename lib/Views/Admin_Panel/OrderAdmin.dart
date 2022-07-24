@@ -33,7 +33,7 @@ class _OrderAdminState extends State<OrderAdmin> {
 
                 return InkWell(
                   onTap: (){
-                    Get.to(()=> const AdminOrderDetailsPage(),arguments: [doc['userName'],doc['phoneNumber'],doc['orderDate'],doc['orderStatus'],doc['totalPrice'],doc['orderId'],doc['orderedBy'],doc['address']]);
+                    Get.to(()=> const AdminOrderDetailsPage(),arguments: [doc['userName'],doc['phoneNumber'],doc['orderDate'],doc['orderStatus'],doc['totalPrice'],doc['orderId'],doc['orderedBy'],doc['address'],listOfOrders]);
                   },
                   child:Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
                       shape:  OutlineInputBorder(

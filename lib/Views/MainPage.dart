@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/Controller/ProductController.dart';
+import 'package:fyp/Views/AllProducts.dart';
 import 'package:fyp/Views/ProductDetailsPage.dart';
 import 'package:fyp/Views/cartPage.dart';
 import 'package:fyp/Widgets/DividerHeading.dart';
@@ -33,7 +34,7 @@ class _MainPageState extends State<MainPage> {
       if(contain.isEmpty){
         Map catMap={
           'Category':product.products[i].category,
-          'modelUrl':product.products[i].modelUrl
+          //'modelUrl':product.products[i].modelUrl
         };product.categories.add(catMap);
       }
 
@@ -42,7 +43,7 @@ class _MainPageState extends State<MainPage> {
       endDrawer: NavDrawer(),
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Welcome',
           style: TextStyle(
               fontSize: 16,
@@ -67,50 +68,55 @@ class _MainPageState extends State<MainPage> {
 
         body: SingleChildScrollView(
           child: Column(
-
+            mainAxisAlignment: MainAxisAlignment.center,
+crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SmallerDividerHeading(
                 heading: 'Categories',
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: 100.0,
+          Obx(()=>
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 100.0,
 
-                  child:
-                     Obx(()=>
-                        ListView.builder(
-                        itemCount: product.categories.value.length,
-                        physics: ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
+                    child:
 
-                        itemBuilder: (BuildContext context, int index) =>
-                            Column(
-                              children: [
-                                Container(   height: 80.0,width: 100,
-                                  child: InkWell(
-                                    onTap: (){
-                                      Get.to(()=>ProductPageCategoryWise(),arguments: [product.categories.value[index]['Category'].toString()]);
-                                    },
-                                    child: Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
-                                      shape:  OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(40),
-                                          borderSide: BorderSide(color: Colors.black26)
-                                      ),
-                          child: Center(
-                              child: ModelViewer(src: product.categories.value[index]['modelUrl'].toString())
-                          ),
-                        ),
-                                  ),
-                                ),
-                                Center(child: Text(product.categories.value[index]['Category'].toString()))
-                              ],
+                          ListView.builder(
+                          itemCount: product.categories.value.length,
+                          physics: ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+
+                          itemBuilder: (BuildContext context, int index) =>
+                              Column(
+                                children: [
+                                  Container(   height: 80.0,width: 100,
+                                    child: InkWell(
+                                      onTap: (){
+                                        Get.to(()=>ProductPageCategoryWise(),arguments: [product.categories.value[index]['Category'].toString()]);
+                                      },
+                                      child: Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
+                                        shape:  OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(40),
+                                            borderSide: BorderSide(color: Colors.black26)
+                                        ),
+                            child: Center(
+                                child:
+                                Image.asset(product.categories.value[index]['Category'].toString()=='Chair'?'images/chair.png':product.categories.value[index]['Category'].toString()=='Bed'?'images/bed.png':product.categories.value[index]['Category'].toString()=='Bench'?'images/bench.png':product.categories.value[index]['Category'].toString()=='Couch'?'images/couch.png':product.categories.value[index]['Category'].toString()=='Table'?'images/table.png':'images/mix.png')
+                                //ModelViewer(src: product.categories.value[index]['modelUrl'].toString())
                             ),
+                          ),
+                                    ),
+                                  ),
+                                  Center(child: Text(product.categories.value[index]['Category'].toString()))
+                                ],
+                              ),
+                      ),
+                       ),
                     ),
-                     ),
-                  ),
-                ),
+              ),
+
 
               SmallerDividerHeading(
                 heading: 'Featured Products',
@@ -122,14 +128,14 @@ class _MainPageState extends State<MainPage> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  //itemCount: product.products.length>6?6:product.products.length,
-                  itemCount: product.products.length,
+                  itemCount: product.products.length>6?6:product.products.length,
+                  //itemCount: product.products.length,
 
                   itemBuilder: (context,index)=>
                       InkWell(
                         onTap: (){
                           Get.to(()=>ProductDetails(),
-                              arguments: ['${product.products[index].name}','${product.products[index].description}','${product.products[index].modelUrl}','${product.products[index].price}']);
+                              arguments: ['${product.products[index].name}','${product.products[index].description}','${product.products[index].modelUrl}','${product.products[index].price}','${product.products[index].imageUrl}']);
                         },
                         child: Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
                           shape:  OutlineInputBorder(
@@ -145,10 +151,11 @@ class _MainPageState extends State<MainPage> {
                                 Container(
                                   height: 110,
                                   width: 110,
-                                  child: ModelViewer(
-                                        src: '${product.products[index].modelUrl}', // a bundled asset file
-
-                                    ),
+                                  child: Image.network(product.products[index].imageUrl!),
+                                  // child: ModelViewer(
+                                  //       src: '${product.products[index].modelUrl}', // a bundled asset file
+                                  //
+                                  //   ),
                                 ),
                                 SizedBox(
                                   width: 10,
@@ -172,7 +179,30 @@ class _MainPageState extends State<MainPage> {
                       ),
                 )),
               ),
-
+           Padding(
+             padding: const EdgeInsets.only(bottom: 28.0,top: 10),
+             child: Center(
+               child: InkWell(
+                 onTap: (){
+                   Get.to(()=>AllProducts());
+                 },
+                 child: Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   children: [
+                     Text(
+                       'See All Products',
+                       style: TextStyle(
+                         fontSize: 18,
+                         fontWeight: FontWeight.bold
+                       ),
+                     ),
+                     Icon(Icons.arrow_forward_ios_rounded)
+                   ],
+                 ),
+               ),
+             ),
+           )
             ],
           ),
         ),

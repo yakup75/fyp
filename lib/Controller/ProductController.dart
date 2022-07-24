@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
@@ -16,6 +17,7 @@ class ProductController extends GetxController{
   RxList<ProductModel> products=RxList<ProductModel>([]);
   var prodName=''.obs;
   var prodDesc=''.obs;
+  var prodImageUrl=''.obs;
   var prodModelUrl=''.obs;
   var prodPrice=''.obs;
   RxList categories=[].obs;
@@ -38,7 +40,7 @@ class ProductController extends GetxController{
 // }
 
 
-  Future<void> addProduct() {
+  Future<void> addProduct(String imageUrl) {
     // Calling the collection to add a new user
     var productId=const Uuid().v1();
     final data = {
@@ -47,7 +49,8 @@ class ProductController extends GetxController{
       'modelUrl': modelUrl.text,
       'category':category.text,
       'price':price.text,
-      'productId': productId
+      'productId': productId,
+      'imageUrl':imageUrl,
     };
     return collectionReference.doc(productId)
     //adding to firebase collection
@@ -55,7 +58,12 @@ class ProductController extends GetxController{
         .then((value) => Get.snackbar('Success', 'Product Added Successfully',backgroundColor: Colors.green))
         .catchError((error) =>Get.snackbar('Error', '$error',backgroundColor: Colors.red));
   }
-
+  // printUrl() async {
+  //   var ref =
+  //   FirebaseStorage.instance.ref().child("Artichoke.glb");
+  //   String url = (await ref.getDownloadURL()).toString();
+  //   print(url);
+  // }
 //For setting a specific document ID use .set instead of .add
 //   users.doc(documentId).set({
 //   //Data added in the form of a dictionary into the document.

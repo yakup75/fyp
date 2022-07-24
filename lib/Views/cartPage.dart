@@ -58,8 +58,9 @@ class _CartState extends State<Cart> {
                     child: Column(
                       children: [
                         Center(child: Image.asset('images/noOrders.png')),
-                        SizedBox(height: 50,),
-                        Text(
+
+                        const SizedBox(height: 50,),
+                        const Text(
                           'Your cart is Empty',
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold),
@@ -122,10 +123,14 @@ class _CartState extends State<Cart> {
                                               SizedBox(
                                                 height: 110,
                                                 width: 90,
-                                                child: ModelViewer(
-                                                      src: '${cart.cartList.value[index]['modelUrl'].toString()}', // a bundled asset file
+                                                child: Image.network(
+                                                   cart.cartList.value[index]['imageUrl'].toString(), // a bundled asset file
 
-                                                  ),
+                                                ),
+                                                // child: ModelViewer(
+                                                //       src: '${cart.cartList.value[index]['modelUrl'].toString()}', // a bundled asset file
+                                                //
+                                                //   ),
                                               ),
                                               const SizedBox(
                                                 width: 10,

@@ -4,8 +4,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:fyp/Views/Admin_Panel/OrderAdmin.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import '../../Widgets/Constants.dart';
+import '../../Widgets/SmallerDivider.dart';
 
 class AdminOrderDetailsPage extends StatefulWidget {
   const AdminOrderDetailsPage({Key? key}) : super(key: key);
@@ -24,6 +26,7 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
   late String userId;
   late String orderId;
   late String address;
+  late List orders;
 
   @override
   void initState() {
@@ -36,6 +39,7 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
     orderId=args[5].toString();
     userId=args[6].toString();
     address=args[7].toString();
+    orders=args[8];
   }
 
   @override
@@ -141,6 +145,27 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                   ],
                 ),
               ),
+              SmallerDividerHeading(
+                heading: 'Items',
+              ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: orders.length,
+                  itemBuilder: (context,index)
+                      {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            leading: SizedBox(height:100,width:50,child: ModelViewer(src:orders[index]['modelUrl'].toString())),
+                            title: Text(orders[index]['name'].toString()),
+                            trailing: Text(orders[index]['price'].toString()),
+                          ),
+                        );
+                      }
+
+
+              ),
+            ),
               SizedBox(height: 20,),
               Column(
                 children: [

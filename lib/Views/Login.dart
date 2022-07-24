@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/Controller/AuthController.dart';
 import 'package:fyp/Views/SignUp.dart';
+import 'package:fyp/Views/SignUpWithPhone.dart';
 import 'package:fyp/Widgets/DividerHeading.dart';
 import 'package:get/get.dart';
 
@@ -166,6 +167,15 @@ var isLoading =false;
                     child: Container(
                         height: 50,
                         child: Image.asset('images/fb.png')),
+                ),
+                InkWell(
+                  onTap: (){
+                    Get.to(()=> const SignUpWithPhoneNumber());
+                  },
+                  child: Container(
+                      height: 50,
+                      color: Colors.red,
+                      child: Image.asset('images/fb.png')),
                 ),
               ],
             ),

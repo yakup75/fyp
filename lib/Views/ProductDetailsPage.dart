@@ -3,6 +3,7 @@ import 'package:fyp/Controller/CartController.dart';
 import 'package:fyp/Controller/ProductController.dart';
 import 'package:fyp/Widgets/ModelView.dart';
 import 'package:get/get.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import 'CheckOut.dart';
 import 'cartPage.dart';
@@ -27,6 +28,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     product.prodDesc.value=arguments[1];
     product.prodModelUrl.value=arguments[2];
     product.prodPrice.value=arguments[3];
+    product.prodImageUrl.value=arguments[4];
     cart.cartLen.value=cart.cartList.length;
   }
   @override
@@ -45,8 +47,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                 child: Stack(
                   alignment: Alignment.topRight,
                   children:[
-                    ModelView(
-                    url: '${product.prodModelUrl.value}',
+                  ModelViewer(src: product.prodModelUrl.value,  ar: true,
+                    arModes: const ['scene-viewer'],
+                    autoRotate: true,
+                    cameraControls: true,
+                    arPlacement: ArPlacement.floor,
+                    arScale: ArScale.fixed,
+                    loading: Loading.eager,
+                    bounds: Bounds.tight,
+                    cameraTarget: 'auto',
+                    cameraOrbit: 'auto',
+                    environmentImage: 'neutral',
                   ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -136,7 +147,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                          else {
                            cart.addToCart(product.prodName.value,
                                double.parse(product.prodPrice.value),
-                               product.prodModelUrl.value);
+                               product.prodModelUrl.value,product.prodImageUrl.value);
                            cart.quantity.add(TextEditingController());
                            Get.snackbar('Successful', 'Item Added Successfully',duration: Duration(seconds: 2),backgroundColor: Colors.green,snackPosition: SnackPosition.BOTTOM);
                          }},

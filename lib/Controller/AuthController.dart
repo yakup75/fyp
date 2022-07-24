@@ -36,7 +36,7 @@ TextEditingController name=TextEditingController();
       }
     }
     on FirebaseAuthException catch(e){
-      Get.snackbar('Error', '$e',duration: Duration(seconds: 2),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Error', '${e.message}',duration: Duration(seconds: 2),backgroundColor: Colors.red,snackPosition: SnackPosition.BOTTOM);
       print(e);
     }
   }

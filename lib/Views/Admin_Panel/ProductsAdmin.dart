@@ -38,7 +38,7 @@ class _ProductsAdminState extends State<ProductsAdmin> {
                 DocumentSnapshot doc = snapshot.data!.docs[index];
                 return InkWell(
                   onTap: (){
-                    Get.to(()=>UploadData(),arguments: [index,doc['name'],doc['price'],doc['productId'],doc['modelUrl'],doc['category'],doc['description']]);
+                    Get.to(()=>UploadData(),arguments: [index,doc['name'],doc['price'],doc['productId'],doc['modelUrl'],doc['category'],doc['description'],doc['imageUrl']]);
                   },
                   child: Card(
                     elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),

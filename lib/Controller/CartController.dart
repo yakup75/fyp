@@ -23,11 +23,12 @@ class CartController extends GetxController{
     super.onInit();
     print('this is cart $cartList');
   }
-  addToCart(String name,double price,String modelUrl){
+  addToCart(String name,double price,String modelUrl,String imageUrl){
     cartMap.value={
       'name':name,
       'price':price,
-      'modelUrl':modelUrl
+      'modelUrl':modelUrl,
+      'imageUrl':imageUrl
     };cartList.value.add(cartMap.value);
     cartLen.value=cartList.length;
 

@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/Controller/ProductController.dart';
 import 'package:fyp/Views/Admin_Panel/ProductsAdmin.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../Widgets/Button.dart';
 import '../../Widgets/TextField.dart';
@@ -24,6 +29,9 @@ class _UploadDataState extends State<UploadData> {
   var category;
   var productId;
   var description;
+  RxBool add = false.obs;
+  List cats = [];
+  String? imageUrl;
 
   bool get isEditing => index != 'null';
 
@@ -31,6 +39,11 @@ class _UploadDataState extends State<UploadData> {
   void initState() {
     super.initState();
     index = args[0];
+    for (int i = 0; i < product.categories.value.length; i++) {
+      cats.add(product.categories.value[i]['Category']);
+    }
+    print(cats);
+
     if (isEditing) {
       name = args[1];
       price = args[2];
@@ -38,6 +51,7 @@ class _UploadDataState extends State<UploadData> {
       modelUrl = args[4];
       category = args[5];
       description = args[6];
+      imageUrl=args[7];
       product.name.text = name;
       product.category.text = category;
       product.modelUrl.text = modelUrl;
@@ -45,14 +59,17 @@ class _UploadDataState extends State<UploadData> {
       product.description.text = description;
     } else {
       product.name.text = '';
-      product.category.text = '';
+      product.category.text = cats[0].toString();
       product.modelUrl.text = '';
       product.price.text = '';
+      imageUrl='';
       product.description.text = '';
     }
   }
 
   final key = GlobalKey<FormState>();
+  File? image1;
+  ImagePicker imagePicker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -69,177 +86,292 @@ class _UploadDataState extends State<UploadData> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Column(
-                children: [
-                  CustomTextField(
-                    controllers: product.name,
-                    labelText: 'Product Name',
-                    validator: (val) {
-                      if (val!.isEmpty) {
-                        return "Field Required";
-                      }
-                    },
-                  ),
-                  // DropdownButton<String>(
-                  //   focusColor: Colors.white,
-                  //   value: product.category.text,
-                  //   //elevation: 5,
-                  //
-                  //
-                  //   items: <String>[product.categories.value.toString()]
-                  //       .map<DropdownMenuItem<String>>((String value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(
-                  //         value,
-                  //         style: const  TextStyle(fontSize: 18),
-                  //       ),
-                  //     );
-                  //   }).toList(),
-                  //   onChanged: (String? value) {
-                  //     setState(() {
-                  //       product.category.text = value.toString();
-                  //     });
-                  //   },
-                  // ),
-                  // DropdownButtonFormField(
-                  //
-                  //   decoration: InputDecoration(
-                  //
-                  //     border: OutlineInputBorder(
-                  //       borderRadius: const BorderRadius.all(
-                  //         const Radius.circular(10.0),
-                  //       ),
-                  //     ),
-                  //     filled: true,
-                  //     hintStyle: TextStyle(color: Colors.grey[800]),
-                  //     labelText: "Customer",
-                  //   ),
-                  //
-                  //   items: product.categories.value.map((itms) {
-                  //     return new DropdownMenuItem(
-                  //       onTap: () {
-                  //         product.category.text = itms;
-                  //         print(product.category.text);
-                  //       },
-                  //       child: new Text(itms,
-                  //       ),
-                  //       value: itms.toString(),
-                  //     );
-                  //   }).toList(),
-                  //   onChanged: (itm) {
-                  //     setState(() {
-                  //       product.category.text = itm as String;
-                  //
-                  //       print(product.category.text);
-                  //     });
-                  //   },
-                  //   value: product.category.text,
-                  //
-                  // ),
-                  CustomTextField(
-                    controllers: product.category,
-                    labelText: 'Category', validator: (val) {
+            child: Column(
+              children: [
+                _buildImagePicker1(),
+                CustomTextField(
+                  controllers: product.name,
+                  labelText: 'Product Name',
+                  validator: (val) {
                     if (val!.isEmpty) {
                       return "Field Required";
                     }
                   },
-                  ),
-                  CustomTextField(
-                    controllers: product.modelUrl,
-                    labelText: 'Model Url', validator: (val) {
-                    if (val!.isEmpty) {
-                      return "Field Required";
-                    }
-                  },
-                  ),
-                  CustomTextField(
-                    controllers: product.price,
-                    labelText: 'Price', validator: (val) {
-                    if (val!.isEmpty) {
-                      return "Field Required";
-                    }
-                  },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: TextFormField(
-                      controller: product.description,
-                      maxLines: 3,
-                      style: TextStyle(),
-                      decoration: InputDecoration(
-                        labelText: 'Product Description',
-                        border: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
-                          ),
-                        ),
-                        filled: true,
+                ),
+                // DropdownButton<String>(
+                //
+                //   focusColor: Colors.white,
+                //   value: product.category.text,
+                //   //elevation: 5,
+                //
+                //
+                //   items: cats
+                //       .map<DropdownMenuItem<String>>(( value) {
+                //     return DropdownMenuItem<String>(
+                //       value: value,
+                //       child: Text(
+                //         value,
+                //         style: const  TextStyle(fontSize: 18),
+                //       ),
+                //     );
+                //   }).toList(),
+                //   onChanged: (String? value) {
+                //     setState(() {
+                //       product.category.text = value.toString();
+                //     });
+                //   },
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Builder(builder: (context) {
+                          if (add.value = false) {
+                            return DropdownButtonFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0),
+                                  ),
+                                ),
+                                filled: true,
+                                // hintStyle: TextStyle(
+                                //     color: Colors.grey[800]),
+                                labelText: "Category",
+                              ),
+                              items: cats.map((itms) {
+                                return DropdownMenuItem(
+                                  onTap: () {
+                                    product.category.text = itms;
+                                    print(product.category.text);
+                                  },
+                                  child: Text(
+                                    itms,
+                                  ),
+                                  value: itms.toString(),
+                                );
+                              }).toList(),
+                              onChanged: (itm) {
+                                setState(() {
+                                  product.category.text = itm as String;
+
+                                  print(product.category.text);
+                                });
+                              },
+                              value: product.category.text,
+                            );
+                          } else {
+                            return CustomTextField(
+                              controllers: product.category,
+                              labelText: 'Category',
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return "Field Required";
+                                }
+                              },
+                            );
+                          }
+                        }),
                       ),
+                      IconButton(
+                          onPressed: () {
+                            add.value == true;
+                            print(add);
+                          },
+                          icon: Icon(
+                            Icons.add_circle,
+                            size: 28,
+                          ))
+                    ],
+                  ),
+                ),
+                //
 
-
+                CustomTextField(
+                  controllers: product.modelUrl,
+                  labelText: 'Model Url',
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return "Field Required";
+                    }
+                  },
+                ),
+                CustomTextField(
+                  controllers: product.price,
+                  labelText: 'Price',
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return "Field Required";
+                    }
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: TextFormField(
+                    controller: product.description,
+                    maxLines: 3,
+                    style: const TextStyle(),
+                    decoration: const InputDecoration(
+                      labelText: 'Product Description',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                      ),
+                      filled: true,
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  UploadDataButton(
-                    text: 'Upload',
-                    onPressed: () async {
-                      if (key.currentState!.validate()) {
-                        if (isEditing) {
-                          final data = {
-                            'name': product.name.text,
-                            'description': product.description.text,
-                            'modelUrl': product.modelUrl.text,
-                            'category': product.category.text,
-                            'price': product.price.text,
-                            'productId': productId
-                          };
-                          await FirebaseFirestore.instance
-                              .collection('products')
-                              .doc(productId)
-                              .update(data);
-                          Get.snackbar('Successful', 'Product Updated Successfully',duration: const Duration(seconds: 2),backgroundColor: Colors.green,snackPosition: SnackPosition.BOTTOM);
-
-                        } else {
-                          product.addProduct();
-                          Get.snackbar('Successful', 'Product Added Successfully',duration: const Duration(seconds: 2),backgroundColor: Colors.green,snackPosition: SnackPosition.BOTTOM);
-
-                        }
-                        Get.off(ProductsAdmin());
-                      }
-                    },
-                  ),
-
-                  Builder(
-                    builder: (context) {
-                      if(isEditing){
-                      return ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                        ),
-                          onPressed: () async {
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                UploadDataButton(
+                  text: 'Upload',
+                  onPressed: () async {
+                    if (key.currentState!.validate()) {
+                      if (isEditing) {
+                        await uploadImagesAndGetDownloadLink();
+                        final data = {
+                          'name': product.name.text,
+                          'description': product.description.text,
+                          'modelUrl': product.modelUrl.text,
+                          'category': product.category.text,
+                          'price': product.price.text,
+                          'productId': productId,
+                          'imageUrl':imageUrl,
+                        };
                         await FirebaseFirestore.instance
                             .collection('products')
                             .doc(productId)
-                            .delete();
-                        Get.off(ProductsAdmin());
-                      }, child: Text('Delete'));
-                    }
-                      else{
-                        return Text('');
+                            .update(data);
+                        Get.snackbar(
+                            'Successful', 'Product Updated Successfully',
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: Colors.green,
+                            snackPosition: SnackPosition.BOTTOM);
+                      } else {
+                        await uploadImagesAndGetDownloadLink();
+                        product.addProduct(imageUrl!);
+                        Get.snackbar('Successful', 'Product Added Successfully',
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: Colors.green,
+                            snackPosition: SnackPosition.BOTTOM);
                       }
+                      Get.off(const ProductsAdmin());
                     }
-                  )
+                  },
+                ),
 
-                ],
-              ),
+                Builder(builder: (context) {
+                  if (isEditing) {
+                    return ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.red),
+                        ),
+                        onPressed: () async {
+                          await FirebaseFirestore.instance
+                              .collection('products')
+                              .doc(productId)
+                              .delete();
+                          Get.off(ProductsAdmin());
+                        },
+                        child: Text('Delete'));
+                  } else {
+                    return Text('');
+                  }
+                })
+              ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildImagePicker1() {
+    return InkWell(
+      onTap: () async {
+        var pickedFile = await imagePicker.getImage(
+            source: ImageSource.gallery, imageQuality: 20);
+        setState(() {
+          image1 = File(pickedFile!.path);
+        });
+      },
+      child: imageUrl!.isEmpty? Container(
+        width: 120,
+        height: 120,
+        decoration: image1 == null
+            ? BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10),
+              )
+            : BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+        child: image1 != null
+            ? Stack(
+                children: [
+                  Center(
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: Image.file(
+                        image1!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        image1 = null;
+                      });
+                    },
+                    child: const Align(
+                        alignment: Alignment.topRight,
+                        child: Icon(Icons.cancel)),
+                  ),
+                ],
+              )
+            : const Center(
+                child: Icon(
+                  Icons.add,
+                  size: 30,
+                  color: Colors.grey,
+                ),
+              ),
+      ): SizedBox(
+        height: 120,
+        width: 120,
+        child: Image.network(imageUrl!),
+      ),
+    );
+  }
+  Future uploadImagesAndGetDownloadLink() async {
+    try {
+      if (image1 != null) {
+        var reference1 =
+        FirebaseStorage.instance.ref('Images/$image1');
+        await reference1.putFile(image1!);
+        String download1 = await reference1.getDownloadURL();
+        if (kDebugMode) {
+          print('Image1 DOWNLOAD URL:$download1');
+        }
+        setState((){
+          imageUrl=download1;
+        });
+      }
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    if (kDebugMode) {
+      print(imageUrl);
+    }
   }
 }

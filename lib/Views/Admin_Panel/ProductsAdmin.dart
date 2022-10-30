@@ -54,6 +54,7 @@ class _ProductsAdminState extends State<ProductsAdmin> {
                           Container(
                             height: 80,
                             width: 80,
+                            child:Image.network(doc['imageUrl'].toString()),
                             // child: ModelViewer(
                             //   src: doc['modelUrl'],
                             // ),

@@ -16,6 +16,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   AuthController auth=Get.find();
+
 var isLoading =false;
   bool _isHidden = true;
   void _togglePasswordView() {
@@ -29,6 +30,15 @@ var isLoading =false;
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
+            // decoration: BoxDecoration(
+            //
+            // image: DecorationImage(
+            //   colorFilter: ColorFilter.linearToSrgbGamma(),
+            //   image: AssetImage(
+            //       "images/1.jpg"),
+            //   fit: BoxFit.fill,
+            //
+            // ),),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

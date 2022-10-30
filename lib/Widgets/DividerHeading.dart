@@ -28,7 +28,7 @@ class DividerHeading extends StatelessWidget {
                 ),),
             ),
             Expanded(child: Divider(
-              thickness: 1,
+              thickness: 1.5,
             )),
           ],
         ),

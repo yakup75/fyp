@@ -27,7 +27,7 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
   late String orderId;
   late String address;
   late List orders;
-
+  late String email;
   @override
   void initState() {
     super.initState();
@@ -40,6 +40,7 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
     userId=args[6].toString();
     address=args[7].toString();
     orders=args[8];
+    email=args[9].toString();
   }
 
   @override
@@ -59,8 +60,8 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('User Name',style: TextStyle(fontSize: 18),),
-                    Text(userName,style: TextStyle(fontSize: 18)),
+                    const Text('User Name',style: const TextStyle(fontSize: 18),),
+                    Text(userName,style: const TextStyle(fontSize: 18)),
                   ],
                 ),
               ),
@@ -69,8 +70,8 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Phone Number',style: TextStyle(fontSize: 18)),
-                    Text(phoneNumber,style: TextStyle(fontSize: 18)),
+                    const Text('Phone Number',style: TextStyle(fontSize: 18)),
+                    Text(phoneNumber,style: const TextStyle(fontSize: 18)),
                   ],
                 ),
               ),
@@ -79,8 +80,8 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Order Date',style: TextStyle(fontSize: 18)),
-                    Text(orderDate,style: TextStyle(fontSize: 18)),
+                    const Text('Email',style: TextStyle(fontSize: 18)),
+                    Text(email,style: const TextStyle(fontSize: 18)),
                   ],
                 ),
               ),
@@ -89,8 +90,8 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Order Price',style: TextStyle(fontSize: 18)),
-                    Text(totalPrice,style: TextStyle(fontSize: 18)),
+                    const Text('Order Date',style: TextStyle(fontSize: 18)),
+                    Text(orderDate,style: const TextStyle(fontSize: 18)),
                   ],
                 ),
               ),
@@ -99,14 +100,24 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 50.0),
+                    const Text('Order Price',style: const TextStyle(fontSize: 18)),
+                    Text(totalPrice,style: const TextStyle(fontSize: 18)),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(right: 50.0),
                       child: Text('Address',style: TextStyle(fontSize: 18)),
                     ),
                     Flexible(
                       child: Text(address, maxLines: 4,
                           softWrap: true,
-                          overflow: TextOverflow.fade,style: TextStyle(fontSize: 18)),
+                          overflow: TextOverflow.fade,style: const TextStyle(fontSize: 18)),
                     ),
                   ],
                 ),
@@ -156,7 +167,10 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
-                            leading: SizedBox(height:100,width:50,child: ModelViewer(src:orders[index]['modelUrl'].toString())),
+                            leading: SizedBox(height:100,width:50,
+                                child:Image.network(orders[index]['imageUrl'].toString()),
+                           // ModelViewer(src:orders[index]['modelUrl'].toString())
+                            ),
                             title: Text(orders[index]['name'].toString()),
                             trailing: Text(orders[index]['price'].toString()),
                           ),
@@ -166,12 +180,12 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
 
               ),
             ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Column(
                 children: [
                   Center(
                     child: ElevatedButton(
-                      child: Text('Update Status'),
+                      child: const Text('Update Status'),
                       onPressed: ()async{
                         await FirebaseFirestore.instance.collection('Orders').doc(orderId).update({
                           'orderStatus': orderStatus,
@@ -179,11 +193,11 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                         await FirebaseFirestore.instance.collection('users').doc(userId).collection('orders').doc(orderId).update({
                           'orderStatus': orderStatus,
                         });
-                        Get.off(OrderAdmin());
+                        Get.off(const OrderAdmin());
                       },
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Center(
                     child: ElevatedButton(
 
@@ -195,7 +209,7 @@ class _AdminOrderDetailsPageState extends State<AdminOrderDetailsPage> {
                       onPressed: ()async{
                         await FirebaseFirestore.instance.collection('Orders').doc(orderId).delete();
                         await FirebaseFirestore.instance.collection('users').doc(userId).collection('orders').doc(orderId).delete();
-                        Get.off(OrderAdmin());
+                        Get.off(const OrderAdmin());
                       },
                     ),
                   ),

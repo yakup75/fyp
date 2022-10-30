@@ -38,9 +38,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     Container(
                       height: 90,
                       width: 90,
-                      child: ModelViewer(
-                        src: args[index]['modelUrl'],
-                      ),
+                        child:Image.network(args[index]['imageUrl'].toString()),
+                      // child: ModelViewer(
+                      //   src: args[index]['modelUrl'],
+                      // ),
                     ),
                     Text(args[index]['name'].toString(),style: TextStyle(fontSize: 18)),
                     Text(args[index]['price'].toString(),style: TextStyle(fontSize: 18)),

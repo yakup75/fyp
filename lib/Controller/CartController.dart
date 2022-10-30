@@ -33,11 +33,12 @@ class CartController extends GetxController{
     cartLen.value=cartList.length;
 
   }
-  buyNow(String name,double price,String modelUrl){
+  buyNow(String name,double price,String modelUrl,String imageUrl){
     buyMap.value={
       'name':name,
       'price':price,
-      'modelUrl':modelUrl
+      'modelUrl':modelUrl,
+      'imageUrl':imageUrl
     };buyList.value.add(buyMap.value);
 
 

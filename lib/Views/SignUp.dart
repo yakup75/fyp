@@ -28,6 +28,15 @@ class _SignUpState extends State<SignUp> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
+            // decoration: BoxDecoration(
+            //
+            //   image: DecorationImage(
+            //     colorFilter: ColorFilter.linearToSrgbGamma(),
+            //     image: AssetImage(
+            //         "images/2.png"),
+            //     fit: BoxFit.fill,
+            //
+            //   ),),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

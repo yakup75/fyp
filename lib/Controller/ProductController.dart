@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
 import '../Models/ProductModel.dart';
+import '../Views/ProductPageCategoryWise.dart';
 
 class ProductController extends GetxController{
   FirebaseFirestore fireStore=FirebaseFirestore.instance;
@@ -15,20 +16,27 @@ class ProductController extends GetxController{
   TextEditingController description=new TextEditingController();
   TextEditingController price=new TextEditingController();
   RxList<ProductModel> products=RxList<ProductModel>([]);
+  RxBool addCat = false.obs;
   var prodName=''.obs;
   var prodDesc=''.obs;
   var prodImageUrl=''.obs;
   var prodModelUrl=''.obs;
   var prodPrice=''.obs;
   RxList categories=[].obs;
-
+  RxBool catFetch=false.obs;
   
   @override
-  void onInit(){
+  Future<void> onInit() async {
     super.onInit();
     collectionReference=fireStore.collection('products');
     products.bindStream(getAllProducts());
-
+    Future.delayed(Duration(seconds: 2), () async{
+      await catGet();
+      catFetch.value=true;
+      print(catFetch.value);
+    });
+    // var result=await catGet();
+    // print(result);
   }
   Stream<List<ProductModel>> getAllProducts()=>
       collectionReference.snapshots().map((query) =>
@@ -39,7 +47,20 @@ class ProductController extends GetxController{
 //     return snapshot.docs;
 // }
 
+  Future<List> catGet(){
+    for(int i=0;i<products.value.length;i++){
 
+      var contain = categories.value.where((element) => element['Category'] == products.value[i].category.toString());
+      if(contain.isEmpty){
+        Map catMap={
+          'Category':products.value[i].category,
+          'imageUrl':products.value[i].imageUrl
+        };categories.value.add(catMap);
+      }
+
+    }
+    return Future.value(categories);
+  }
   Future<void> addProduct(String imageUrl) {
     // Calling the collection to add a new user
     var productId=const Uuid().v1();

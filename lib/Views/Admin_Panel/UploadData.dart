@@ -29,7 +29,8 @@ class _UploadDataState extends State<UploadData> {
   var category;
   var productId;
   var description;
-  RxBool add = false.obs;
+  RxBool addCat=false.obs;
+  RxBool selCat=false.obs;
   List cats = [];
   String? imageUrl;
 
@@ -43,7 +44,6 @@ class _UploadDataState extends State<UploadData> {
       cats.add(product.categories.value[i]['Category']);
     }
     print(cats);
-
     if (isEditing) {
       name = args[1];
       price = args[2];
@@ -129,39 +129,42 @@ class _UploadDataState extends State<UploadData> {
                     children: [
                       Expanded(
                         child: Builder(builder: (context) {
-                          if (add.value = false) {
-                            return DropdownButtonFormField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0),
+                          if (addCat.value == false) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: DropdownButtonFormField(
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
                                   ),
+                                  filled: true,
+                                  // hintStyle: TextStyle(
+                                  //     color: Colors.grey[800]),
+                                  labelText: "Category",
                                 ),
-                                filled: true,
-                                // hintStyle: TextStyle(
-                                //     color: Colors.grey[800]),
-                                labelText: "Category",
-                              ),
-                              items: cats.map((itms) {
-                                return DropdownMenuItem(
-                                  onTap: () {
-                                    product.category.text = itms;
-                                    print(product.category.text);
-                                  },
-                                  child: Text(
-                                    itms,
-                                  ),
-                                  value: itms.toString(),
-                                );
-                              }).toList(),
-                              onChanged: (itm) {
-                                setState(() {
-                                  product.category.text = itm as String;
+                                items: cats.map((itms) {
+                                  return DropdownMenuItem(
+                                    onTap: () {
+                                      product.category.text = itms;
+                                      print(product.category.text);
+                                    },
+                                    child: Text(
+                                      itms,
+                                    ),
+                                    value: itms.toString(),
+                                  );
+                                }).toList(),
+                                onChanged: (itm) {
+                                  setState(() {
+                                    product.category.text = itm as String;
 
-                                  print(product.category.text);
-                                });
-                              },
-                              value: product.category.text,
+                                    print(product.category.text);
+                                  });
+                                },
+                                value: product.category.text,
+                              ),
                             );
                           } else {
                             return CustomTextField(
@@ -176,15 +179,36 @@ class _UploadDataState extends State<UploadData> {
                           }
                         }),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            add.value == true;
-                            print(add);
-                          },
-                          icon: Icon(
-                            Icons.add_circle,
-                            size: 28,
-                          ))
+                      Builder(
+                        builder: (context) {
+                          if(addCat.value==false){
+                          return IconButton(
+                              onPressed: () {
+                                setState((){
+                                addCat.value = true;
+                                selCat.value=false;
+                                print(addCat);});
+                              },
+                              icon: Icon(
+                                Icons.add_circle,
+                                size: 28,
+                              ));
+                        }
+                          else if(selCat.value==false) {
+                          return IconButton(
+                              onPressed: () {
+                                setState((){
+                                  selCat.value = true;
+                                  addCat.value=false;
+                                  print(selCat);});
+                              },
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                size: 28,
+                              ));}
+                          else{return Text('');};
+                        }
+                      )
                     ],
                   ),
                 ),

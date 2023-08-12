@@ -70,7 +70,7 @@ class PaymentController extends GetxController {
           Uri.parse('https://api.stripe.com/v1/payment_intents'),
           body: body,
           headers: {
-            'Authorization': 'Bearer sk_test_51InumCJNs8MZJzppyvx0VDvVS0bmEg0vyRUjUpyQGeB7TKW4YROG9PjSgTIH061ImZV6Qr9CDZRuXJak7hqAzyDF00SJjXBtGu',
+            'Authorization': 'Bearer <YOUR STRIPE SECRET KEY HERE>',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
       print(response.body);

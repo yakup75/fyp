@@ -12,7 +12,7 @@ import 'Widgets/Constants.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Stripe.publishableKey='';
+  Stripe.publishableKey='<YOUR STRIPE SECRET PUBLISHABLE KEY HERE>';
   runApp(GetMaterialApp( home:FirebaseAuth.instance.currentUser==null?const Login(): const MainPage(),
 
     debugShowCheckedModeBanner: false,

@@ -69,206 +69,204 @@ class _CartState extends State<Cart> {
                     ),
                   ));
             } else {
-              return Container(
-                child: Column(
-                  children: [
-                    SingleChildScrollView(
-                      child: Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.78,
-                        child: Obx(
-                              () =>
-                              ListView.builder(
-                                itemCount: cart.cartList.value.length,
-                                itemBuilder: (context, index) =>
-                                    Dismissible(
-                                      key: UniqueKey(),
-                                      direction: DismissDirection.startToEnd,
-                                      background: Container(
-                                        color: Colors.red,
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        alignment: Alignment.centerRight,
-                                        child: const Icon(
-                                          Icons.delete,
-                                          color: Colors.white,
-                                        ),
+              return Column(
+                children: [
+                  SingleChildScrollView(
+                    child: Container(
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.78,
+                      child: Obx(
+                            () =>
+                            ListView.builder(
+                              itemCount: cart.cartList.value.length,
+                              itemBuilder: (context, index) =>
+                                  Dismissible(
+                                    key: UniqueKey(),
+                                    direction: DismissDirection.startToEnd,
+                                    background: Container(
+                                      color: Colors.red,
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      alignment: Alignment.centerRight,
+                                      child: const Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
                                       ),
-                                      onDismissed: (_) {
-                                        setState(() {
-                                          cart.totalAmount.value=cart.totalAmount.value-double.parse(linePrice[index].text);
-                                          print (linePrice[index].text);
-                                          linePrice.remove(linePrice[index]);
-                                          cart.quantity
-                                              .remove(cart.quantity[index]);
-                                          cart.cartList.removeAt(index);
+                                    ),
+                                    onDismissed: (_) {
+                                      setState(() {
+                                        cart.totalAmount.value=cart.totalAmount.value-double.parse(linePrice[index].text);
+                                        print (linePrice[index].text);
+                                        linePrice.remove(linePrice[index]);
+                                        cart.quantity
+                                            .remove(cart.quantity[index]);
+                                        cart.cartList.removeAt(index);
 
-                                        });
-                                      },
-                                      child: Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
-                                        shape:  OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                            borderSide: BorderSide(color: Colors.black26)
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                height: 110,
-                                                width: 90,
-                                                child: Image.network(
-                                                   cart.cartList.value[index]['imageUrl'].toString(), // a bundled asset file
+                                      });
+                                    },
+                                    child: Card(elevation: 8,shadowColor: Get.isDarkMode?Colors.black45:Colors.black45,margin: EdgeInsets.all(6),
+                                      shape:  OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                          borderSide: BorderSide(color: Colors.black26)
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 110,
+                                              width: 90,
+                                              child: Image.network(
+                                                 cart.cartList.value[index]['imageUrl'].toString(), // a bundled asset file
 
+                                              ),
+                                              // child: ModelViewer(
+                                              //       src: '${cart.cartList.value[index]['modelUrl'].toString()}', // a bundled asset file
+                                              //
+                                              //   ),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${cart.cartList.value[index]['name'].toString()}',
+                                                  style: TextStyle(
+                                                      fontSize: 16),
                                                 ),
-                                                // child: ModelViewer(
-                                                //       src: '${cart.cartList.value[index]['modelUrl'].toString()}', // a bundled asset file
-                                                //
-                                                //   ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '${cart.cartList.value[index]['name'].toString()}',
-                                                    style: TextStyle(
-                                                        fontSize: 16),
-                                                  ),
-                                                  Row( mainAxisAlignment: MainAxisAlignment.end,
-                                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                                    children: [
-                                                      Row(
+                                                Row( mainAxisAlignment: MainAxisAlignment.end,
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children: [
+                                                    Row(
 
-                                                        children: [
-                                                          IconButton(
-                                                            visualDensity: VisualDensity.compact,
-                                                            iconSize: 18,
-                                                            onPressed: () {
+                                                      children: [
+                                                        IconButton(
+                                                          visualDensity: VisualDensity.compact,
+                                                          iconSize: 18,
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              if (cart.quantity[index].text.isEmpty) {
+                                                                cart.quantity[index].text = '0';
+                                                              } else if (double.parse(cart.quantity[index].text) == 1) {
+                                                                return null;
+                                                              } else {
+                                                                cart.quantity[index].text = (int.parse(cart.quantity[index].text) - 1).toString();
+                                                              }
+                                                              linePrice[index].text = (double.parse(cart.cartList.value[index]['price'].toString()) * double.parse(cart.quantity[index].text.toString())).toString();
+                                                              cart.totalAmount.value=cart.totalAmount.value-double.parse(cart.cartList.value[index]['price'].toString());
+                                                            });
+                                                          },
+                                                          icon: Icon(Icons
+                                                              .exposure_minus_1),
+                                                          color: Colors.red,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 20,
+                                                          width: 45,
+                                                          child: TextFormField(
+                                                            textAlign:
+                                                            TextAlign.center,
+                                                            keyboardType:
+                                                            TextInputType.number,
+                                                            controller: cart.quantity[index],
+                                                            onChanged: (value) {
                                                               setState(() {
-                                                                if (cart.quantity[index].text.isEmpty) {
-                                                                  cart.quantity[index].text = '0';
-                                                                } else if (double.parse(cart.quantity[index].text) == 1) {
-                                                                  return null;
-                                                                } else {
-                                                                  cart.quantity[index].text = (int.parse(cart.quantity[index].text) - 1).toString();
+                                                                cart.totalAmount.value=0.0;
+                                                                if (value.isEmpty) {
+                                                                  value = '0';
                                                                 }
-                                                                linePrice[index].text = (double.parse(cart.cartList.value[index]['price'].toString()) * double.parse(cart.quantity[index].text.toString())).toString();
-                                                                cart.totalAmount.value=cart.totalAmount.value-double.parse(cart.cartList.value[index]['price'].toString());
+                                                                linePrice[index].text = (double.parse(cart.cartList.value[index]['price'].toString()) * double.parse(value)).toString();
+                                                                print(linePrice);
+                                                                for (var j = 0; j < linePrice.length; j++) {
+                                                                  //print(widget.controllers[i].text);
+                                                                  cart.totalAmount.value =cart.totalAmount.value+ double.parse(linePrice[j].text);
+                                                                }
+
+                                                                //cart.totalAmount.value=cart.totalAmount.value+ (double.parse(linePrice[index].text));
                                                               });
                                                             },
-                                                            icon: Icon(Icons
-                                                                .exposure_minus_1),
-                                                            color: Colors.red,
+                                                            //initialValue: '1',
                                                           ),
-                                                          SizedBox(
-                                                            height: 20,
-                                                            width: 45,
-                                                            child: TextFormField(
-                                                              textAlign:
-                                                              TextAlign.center,
-                                                              keyboardType:
-                                                              TextInputType.number,
-                                                              controller: cart.quantity[index],
-                                                              onChanged: (value) {
-                                                                setState(() {
-                                                                  cart.totalAmount.value=0.0;
-                                                                  if (value.isEmpty) {
-                                                                    value = '0';
-                                                                  }
-                                                                  linePrice[index].text = (double.parse(cart.cartList.value[index]['price'].toString()) * double.parse(value)).toString();
-                                                                  print(linePrice);
-                                                                  for (var j = 0; j < linePrice.length; j++) {
-                                                                    //print(widget.controllers[i].text);
-                                                                    cart.totalAmount.value =cart.totalAmount.value+ double.parse(linePrice[j].text);
-                                                                  }
+                                                        ),
+                                                        IconButton(
+                                                          iconSize: 18,
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              if (cart.quantity[index].text.isEmpty) {cart.quantity[index].text = '0';
+                                                              }
+                                                              cart.quantity[index].text = (int.parse(cart.quantity[index].text) + 1).toString();
+                                                              linePrice[index].text = (double.parse(cart.cartList.value[index]['price'].toString()) * double.parse(cart.quantity[index].text.toString())).toString();
 
-                                                                  //cart.totalAmount.value=cart.totalAmount.value+ (double.parse(linePrice[index].text));
-                                                                });
-                                                              },
-                                                              //initialValue: '1',
-                                                            ),
-                                                          ),
-                                                          IconButton(
-                                                            iconSize: 18,
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                if (cart.quantity[index].text.isEmpty) {cart.quantity[index].text = '0';
-                                                                }
-                                                                cart.quantity[index].text = (int.parse(cart.quantity[index].text) + 1).toString();
-                                                                linePrice[index].text = (double.parse(cart.cartList.value[index]['price'].toString()) * double.parse(cart.quantity[index].text.toString())).toString();
-
-                                                                cart.totalAmount.value=cart.totalAmount.value+double.parse(cart.cartList.value[index]['price'].toString());
-                                                              });
-                                                            },
-                                                            icon: Icon(
-                                                                Icons.plus_one),
-                                                            color: Colors.green,
-                                                          ),
-                                                          SizedBox(width: 10,),
-                                                          Text(
-                                                              'RS ${linePrice[index]
-                                                                  .text}',style: TextStyle(
-                                                            fontSize: 18
-                                                          ),),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                                              cart.totalAmount.value=cart.totalAmount.value+double.parse(cart.cartList.value[index]['price'].toString());
+                                                            });
+                                                          },
+                                                          icon: Icon(
+                                                              Icons.plus_one),
+                                                          color: Colors.green,
+                                                        ),
+                                                        SizedBox(width: 10,),
+                                                        Text(
+                                                            'RS ${linePrice[index]
+                                                                .text}',style: TextStyle(
+                                                          fontSize: 18
+                                                        ),),
+                                                      ],
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
+                                  ),
 
-                              ),
-                        ),
+                            ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Text('Total',style: TextStyle(
-                                fontSize: 18
-                              ),),
-                              SizedBox(height: 5,),
-                              Obx(()=>Text('RS ${cart.totalAmount.value}',style: TextStyle(
-                                  fontSize: 18,
-                                fontWeight: FontWeight.bold
-                              ),)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Text('Total',style: TextStyle(
+                              fontSize: 18
+                            ),),
+                            SizedBox(height: 5,),
+                            Obx(()=>Text('RS ${cart.totalAmount.value}',style: TextStyle(
+                                fontSize: 18,
+                              fontWeight: FontWeight.bold
+                            ),)),
 
-                            ],
-                          ),
-                          ElevatedButton(onPressed: () async{
-                          // var total=cart.totalAmount.value.toInt();
-                          // print(total);
-                          //  cart.uploadUserSpecificCart();
-                          //  setState((){ cart.cartList.value.clear();});
-                          //
-                          //  //var send=await payment.makePayment(amount: '$total', currency: 'PKR');
-                            Get.to(()=>Checkout());
-                          }, child: const Text('Proceed to Checkout'))
-                        ],
-                      ),
-                    )
+                          ],
+                        ),
+                        ElevatedButton(onPressed: () async{
+                        // var total=cart.totalAmount.value.toInt();
+                        // print(total);
+                        //  cart.uploadUserSpecificCart();
+                        //  setState((){ cart.cartList.value.clear();});
+                        //
+                        //  //var send=await payment.makePayment(amount: '$total', currency: 'PKR');
+                          Get.to(()=>Checkout());
+                        }, child: const Text('Proceed to Checkout'))
+                      ],
+                    ),
+                  )
 
-                  ],
-                ),
+                ],
               );
             }
           }),
